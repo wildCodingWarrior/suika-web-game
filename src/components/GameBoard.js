@@ -149,7 +149,7 @@ const GameBoard = () => {
           World.remove(engine.world, bodyA);
           World.remove(engine.world, bodyB);
 
-          if (newRadius === 154) {
+          if (newRadius === 194) {
             alert("수박을 만들었다! 승리!");
             // 모든 공 제거
             World.clear(engine.world, false);
