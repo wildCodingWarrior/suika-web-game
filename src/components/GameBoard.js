@@ -1,39 +1,82 @@
 import React, { useRef, useEffect } from "react";
 import Matter from "matter-js";
 
-const radii = [20, 25, 32, 40, 50, 62, 78, 98, 123, 154, 194];
-const colorPatterns = [
-  "#FF0000",
-  "#00FF00",
-  "#0000FF",
-  "#FFFF00",
-  "#00FFFF",
-  "#FF00FF",
-  "#FFFFFF",
-  "#FF5733", // 추가 컬러 패턴
-  "#964B00", // 추가 컬러 패턴
-  "#8A2BE2", // 추가 컬러 패턴
-  "#00FF7F", // 추가 컬러 패턴
+const balls = [
+  {
+    level: 1,
+    radius: 20,
+    color: "#FF0000",
+  },
+  {
+    level: 2,
+    radius: 25,
+    color: "#00FF00",
+  },
+  {
+    level: 3,
+    radius: 32,
+    color: "#0000FF",
+  },
+  {
+    level: 4,
+    radius: 40,
+    color: "#FFFF00",
+  },
+  {
+    level: 5,
+    radius: 50,
+    color: "#00FFFF",
+  },
+  {
+    level: 6,
+    radius: 62,
+    color: "#FF00FF",
+  },
+  {
+    level: 7,
+    radius: 78,
+    color: "#FFFFFF",
+  },
+  {
+    level: 8,
+    radius: 98,
+    color: "#FF5733",
+  },
+  {
+    level: 9,
+    radius: 123,
+    color: "#964B00",
+  },
+  {
+    level: 10,
+    radius: 154,
+    color: "#8A2BE2",
+  },
+  {
+    level: 11,
+    radius: 194,
+    color: "#00FF7F",
+  },
 ];
 
 const GameBoard = () => {
   const canvasRef = useRef(null);
 
-  const colors = radii.reduce((acc, rad, idx) => {
-    acc[rad] = colorPatterns[idx % colorPatterns.length];
-    return acc;
-  }, {});
-
-  function getColorByRadius(radius) {
-    return colors[radius] || "#000000"; // Default to black if the radius doesn't match any predefined size
+  function getNextRadius(radius) {
+    const index = balls.findIndex((ball) => ball.radius === radius);
+    if (index === -1 || index === balls.length - 1) {
+      return balls[0].radius;
+    } else {
+      return balls[index + 1].radius;
+    }
   }
 
-  function getNextRadius(radius) {
-    const index = radii.indexOf(radius);
-    if (index === -1 || index === radii.length - 1) {
-      return radii[0];
+  function getColorByRadius(radius) {
+    const index = balls.findIndex((ball) => ball.radius === radius);
+    if (index === -1) {
+      return balls[0].color;
     } else {
-      return radii[index + 1];
+      return balls[index].color;
     }
   }
 
@@ -127,7 +170,7 @@ const GameBoard = () => {
       // Select Random Radius from
       const targetRadius = [20, 25, 32];
       const randomRadius =
-        radii[Math.floor(Math.random() * targetRadius.length)];
+        targetRadius[Math.floor(Math.random() * targetRadius.length)];
 
       const ball = Bodies.circle(x, y, randomRadius, {
         render: {
