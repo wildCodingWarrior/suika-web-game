@@ -123,9 +123,15 @@ const GameBoard = () => {
       const rect = canvasRef.current.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = rect.top;
-      const ball = Bodies.circle(x, y, 20, {
+
+      // Select Random Radius from
+      const targetRadius = [20, 25, 32];
+      const randomRadius =
+        radii[Math.floor(Math.random() * targetRadius.length)];
+
+      const ball = Bodies.circle(x, y, randomRadius, {
         render: {
-          fillStyle: getColorByRadius(20),
+          fillStyle: getColorByRadius(randomRadius),
         },
       });
       World.add(engine.world, ball);
